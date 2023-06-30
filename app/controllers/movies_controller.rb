@@ -1,3 +1,5 @@
+require_relative '../serializers/movie_summary_serializer'
+
 class MoviesController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
 
@@ -11,6 +13,11 @@ class MoviesController < ApplicationController
     render json: movie
   end
 
+  def summary
+    movie = Movie.find(params[:id])
+    render json: movie, serializer: MovieSummarySerializer
+  end
+  
   private
 
   def render_not_found_response
